@@ -1,12 +1,29 @@
-FROM fedora:latest as build-env
-LABEL org.opencontainers.image.authors="Bengt <bengt@fredhs.net>"
+FROM registry.fedoraproject.org/fedora:44@sha256:7011f51bd8089d345be42d41f0aa3190d258823528852a5e7ec976fe2fd20f53 AS build-env
 
 RUN mkdir /output
-RUN dnf -y --installroot=/output --use-host-config --setopt=install_weak_deps=false --nodocs install glibc-minimal-langpack coreutils-single bash dnf curl iproute bind-utils postgresql kubernetes-client
-RUN mkdir -p /output/root && (ls /output/etc/skel/.bash* >/dev/null 2>&1 && cp -a /output/etc/skel/.bash* /output/root/ || true)
-RUN dnf -y --installroot=/output clean all
+RUN dnf -y --installroot=/output --use-host-config --setopt=install_weak_deps=false --nodocs install \
+    glibc-minimal-langpack coreutils-single bash bind-utils ca-certificates curl dnf findutils \
+    gawk grep iproute iputils jq less mtr openssh-clients openssl \
+    postgresql procps-ng sed socat tcpdump tcptraceroute traceroute util-linux \
+    vim-minimal && \
+    dnf -y --installroot=/output clean all
+
+RUN mkdir -p /output/root && printf '%s\n' \
+    "alias cp='cp -i'" \
+    "alias egrep='grep -E --color=auto'" \
+    "alias fgrep='grep -F --color=auto'" \
+    "alias grep='grep --color=auto'" \
+    "alias l.='ls -d .* --color=auto'" \
+    "alias ll='ls -l --color=auto'" \
+    "alias ls='ls --color=auto'" \
+    "alias mv='mv -i'" \
+    "alias rm='rm -i'" \
+    > /output/root/.bashrc
 
 FROM scratch
+LABEL org.opencontainers.image.authors="Bengt <bengt@fredhs.net>"
 COPY --from=build-env /output /
+
+WORKDIR /root
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

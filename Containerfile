@@ -2,9 +2,9 @@ FROM docker.io/library/alpine@sha256:294b683cb724975bec92580e1e685676bd4b50bda91
 LABEL org.opencontainers.image.authors="Bengt <bengt@fredhs.net>"
 
 RUN apk update && apk upgrade -a && \
-    apk add bash bind-tools ca-certificates curl iputils jq mtr nmap \
-    openssh-client openssl postgresql-client python3 socat tcpdump \
-    tcptraceroute traceroute tshark util-linux-misc && \
+    apk add bash bind-tools ca-certificates curl iputils jq mtr \
+    openssh-client openssl postgresql-client socat tcpdump \
+    tcptraceroute traceroute util-linux-misc && \
     rm -rf /tmp/* /var/cache/apk/*
 
 RUN printf '%s\n' \
@@ -17,7 +17,6 @@ RUN printf '%s\n' \
     "alias ls='ls --color=auto'" \
     "alias mv='mv -i'" \
     "alias rm='rm -i'" \
-    "alias vi='vim'" \
     > /root/.bashrc
 
 WORKDIR /root
