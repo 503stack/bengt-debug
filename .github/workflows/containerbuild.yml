@@ -18,7 +18,7 @@ jobs:
     env:
       IMAGE_NAME: bengt-debug
       IMAGE_TAG: latest
-      GHCR_REGISTRY: ghcr.io/bengtfredh
+      GHCR_REGISTRY: ghcr.io/${{ github.repository_owner }}
       CR_IMAGE_NAME: r/bengt-debug
       CR_REGISTRY: cr.fredhs.net
     steps:
