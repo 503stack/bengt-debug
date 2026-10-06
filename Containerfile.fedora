@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:latest@sha256:88f7f8b5d1db37df588399fcfc0c71f3258d653706257ecd749b8d60fdc9f4fe AS build-env
+FROM registry.fedoraproject.org/fedora:latest@sha256:ba35579e107f26a4c2c000390fb3ff549f3858a9584a6b5a35f7fa51f54de309 AS build-env
 
 RUN mkdir /output
 RUN dnf -y --installroot=/output --use-host-config --setopt=install_weak_deps=false --nodocs install \
