@@ -3,8 +3,5 @@
   "extends": [
     "github>503stack/renovate-config",
     "github>503stack/renovate-config:automerge"
-  ],
-  "schedule": [
-    "at any time"
   ]
 }
